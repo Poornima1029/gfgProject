@@ -45,18 +45,26 @@ class TransactionHistoryScreen extends StatelessWidget {
           return ListView(
             children: snapshot.data!.docs.map((document) {
               final data = document.data() as Map<String, dynamic>;
-              DateTime transactionDate = (data['date'] as Timestamp).toDate(); // Assuming you have a 'date' field
+
+              // Safely handle the 'date' field
+              DateTime? transactionDate;
+              if (data['date'] != null) {
+                transactionDate = (data['date'] as Timestamp).toDate();
+              }
 
               return Card(
                 margin: EdgeInsets.all(8.0),
                 child: ListTile(
-                  title: Text('${data['type']}: ${data['amount']}'), // No dollar symbol
+                  title: Text('${data['type']}: ${data['amount']}'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Category: ${data['category']}'),
                       Text('Notes: ${data['notes']}'),
-                      Text('Date: ${DateFormat('yyyy-MM-dd').format(transactionDate)}'), // Display the date
+                      if (transactionDate != null) // Check if transactionDate is not null
+                        Text('Date: ${DateFormat('yyyy-MM-dd').format(transactionDate)}'),
+                      if (transactionDate == null)
+                        Text('Date: Not available'), // Handle missing date
                     ],
                   ),
                   trailing: IconButton(

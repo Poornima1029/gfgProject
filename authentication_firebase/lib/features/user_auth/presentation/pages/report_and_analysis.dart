@@ -9,195 +9,188 @@ class ReportAnalysisScreen extends StatefulWidget {
   @override
   _ReportAnalysisScreenState createState() => _ReportAnalysisScreenState();
 }
-
 class _ReportAnalysisScreenState extends State<ReportAnalysisScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DateTime? startDate;
   DateTime? endDate;
-  bool _alertShown = false;  // Flag to handle the alert display.
+  bool _alertShown = false;
 
   @override
   Widget build(BuildContext context) {
-    String? userId = _auth.currentUser?.email?.split('@')[0];
+    return StreamBuilder<User?>(
+      stream: _auth.authStateChanges(), // Listen for auth state changes
+      builder: (context, authSnapshot) {
+        if (authSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-    if (userId == null) {
-      return Center(child: Text('User is not logged in.'));
-    }
+        if (!authSnapshot.hasData) {
+          return Center(child: Text('User is not logged in.'));
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Report & Analysis',
-          style: GoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),),
-        backgroundColor: Color(0xFFB2DFDB), // Soft pale teal for the AppBar
-        elevation: 4,
+        String userId = authSnapshot.data!.email!.split('@')[0];
 
-      ),
-      body: Column(
-        children: [
-          // Date Pickers for selecting date range
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _selectStartDate(context);
-                  },
-                  child: Text(startDate == null
-                      ? 'Select Start Date'
-                      : DateFormat('yyyy-MM-dd').format(startDate!)),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _selectEndDate(context);
-                  },
-                  child: Text(endDate == null
-                      ? 'Select End Date'
-                      : DateFormat('yyyy-MM-dd').format(endDate!)),
-                ),
-              ],
-            ),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Report & Analysis', style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.w600)),
+            backgroundColor: Color(0xFFB2DFDB),
+            elevation: 4,
           ),
-          // StreamBuilder to fetch the user's transactions within the selected date range
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('transactions')
-                  .doc(userId)
-                  .collection('userTransactions')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                      child: Text('Error fetching transactions: ${snapshot.error}'));
-                }
-
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('No transactions found.'));
-                }
-
-                final transactions = snapshot.data!.docs;
-                double totalIncome = 0;
-                double totalExpense = 0;
-
-                // List to hold transaction data for selected dates
-                List<dynamic> filteredTransactions = [];
-
-                // Calculate total income and expense within the selected date range
-                for (var transaction in transactions) {
-                  final data = transaction.data() as Map<String, dynamic>;
-                  DateTime transactionDate = (data['date'] as Timestamp).toDate();
-
-                  // Check if transaction date is within the selected range
-                  if ((startDate == null || transactionDate.isAfter(startDate!)) &&
-                      (endDate == null || transactionDate.isBefore(endDate!.add(Duration(days: 1))))) {
-                    double amount = (data['amount'] is String)
-                        ? double.tryParse(data['amount']) ?? 0.0
-                        : (data['amount'] as num).toDouble();
-
-                    filteredTransactions.add(data); // Add to filtered list
-
-                    if (data['type'] == 'Income') {
-                      totalIncome += amount;
-                    } else if (data['type'] == 'Expense') {
-                      totalExpense += amount;
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _selectStartDate(context),
+                      child: Text(startDate == null ? 'Select Start Date' : DateFormat('yyyy-MM-dd').format(startDate!)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => _selectEndDate(context),
+                      child: Text(endDate == null ? 'Select End Date' : DateFormat('yyyy-MM-dd').format(endDate!)),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('transactions')
+                      .doc(userId)
+                      .collection('userTransactions')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error fetching transactions: ${snapshot.error}'));
                     }
-                  }
-                }
 
-                // Check if there are filtered transactions
-                if (filteredTransactions.isEmpty) {
-                  return Center(child: Text('No transactions found for the selected date range.'));
-                }
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return Center(child: Text('No transactions found.'));
+                    }
 
-                // Check if total expense exceeds total income and show alert
-                if (totalExpense > totalIncome && !_alertShown) {
-                  _alertShown = true; // Set the flag
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _showAlertDialog(context);
-                  });
-                }
+                    final transactions = snapshot.data!.docs;
+                    double totalIncome = 0;
+                    double totalExpense = 0;
 
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Income vs. Expense',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 20),
-                      Expanded(
-                        child: PieChart(
-                          PieChartData(
-                            sections: [
-                              PieChartSectionData(
-                                color: Colors.green,
-                                value: totalIncome,
-                                title: totalIncome > 0 ? 'Income' : 'No Income',
-                                radius: 60,
-                                titleStyle: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              ),
-                              PieChartSectionData(
-                                color: Colors.red,
-                                value: totalExpense,
-                                title: totalExpense > 0 ? 'Expense' : 'No Expenses',
-                                radius: 60,
-                                titleStyle: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                            borderData: FlBorderData(show: true),
-                            sectionsSpace: 0,
-                            centerSpaceRadius: 40,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    List<dynamic> filteredTransactions = [];
+
+                    for (var transaction in transactions) {
+                      final data = transaction.data() as Map<String, dynamic>;
+
+                      // Check if 'date' exists and is of type Timestamp
+                      if (data.containsKey('date') && data['date'] != null && data['date'] is Timestamp) {
+                        DateTime transactionDate = (data['date'] as Timestamp).toDate();
+
+                        // Check if transaction date is within the selected range
+                        if ((startDate == null || transactionDate.isAfter(startDate!)) &&
+                            (endDate == null || transactionDate.isBefore(endDate!.add(Duration(days: 1))))) {
+                          double amount = (data['amount'] is String)
+                              ? double.tryParse(data['amount']) ?? 0.0
+                              : (data['amount'] as num).toDouble();
+
+                          filteredTransactions.add(data); // Add to filtered list
+
+                          if (data['type'] == 'Income') {
+                            totalIncome += amount;
+                          } else if (data['type'] == 'Expense') {
+                            totalExpense += amount;
+                          }
+                        }
+                      } else {
+                        // Handle the case where 'date' is null or missing
+                        print('Transaction missing date field: $data');
+                      }
+                    }
+
+
+                    if (filteredTransactions.isEmpty) {
+                      return Center(child: Text('No transactions found for the selected date range.'));
+                    }
+
+                    if (totalExpense > totalIncome && !_alertShown) {
+                      _alertShown = true;
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _showAlertDialog(context);
+                      });
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         children: [
-                          Column(
+                          Text(
+                            'Income vs. Expense',
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 20),
+                          Expanded(
+                            child: PieChart(
+                              PieChartData(
+                                sections: [
+                                  PieChartSectionData(
+                                    color: Colors.green,
+                                    value: totalIncome,
+                                    title: totalIncome > 0 ? 'Income' : 'No Income',
+                                    radius: 60,
+                                    titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  ),
+                                  PieChartSectionData(
+                                    color: Colors.red,
+                                    value: totalExpense,
+                                    title: totalExpense > 0 ? 'Expense' : 'No Expenses',
+                                    radius: 60,
+                                    titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                                borderData: FlBorderData(show: true),
+                                sectionsSpace: 0,
+                                centerSpaceRadius: 40,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text('Total Income'),
-                              Text(
-                                '${totalIncome.toStringAsFixed(2)}', // No dollar symbol
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+                              Column(
+                                children: [
+                                  Text('Total Income'),
+                                  Text(
+                                    '${totalIncome.toStringAsFixed(2)}',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text('Total Expense'),
+                                  Text(
+                                    '${totalExpense.toStringAsFixed(2)}',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          Column(
-                            children: [
-                              Text('Total Expense'),
-                              Text(
-                                '${totalExpense.toStringAsFixed(2)}', // No dollar symbol
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
-                              ),
-                            ],
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {
+                              _showTransactionsDialog(filteredTransactions, startDate, endDate);
+                            },
+                            child: Text('View Transactions'),
                           ),
                         ],
                       ),
-                      // Button to view transactions
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          _showTransactionsDialog(filteredTransactions, startDate, endDate);
-                        },
-                        child: Text('View Transactions'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

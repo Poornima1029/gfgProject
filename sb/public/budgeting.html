@@ -1,0 +1,130 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARTbUDGET - Budgeting</title>
+    <link rel="stylesheet" href="../css/budgeting.css">
+    <link rel="icon" type="image/x-icon" href="../images/logo.png">
+    <link rel="stylesheet" href="./css/global.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
+
+  </head>
+  <body>
+      <header>
+          <nav class="navbar">
+              <div class="logo">
+                  <img src="../images/logo.png" alt="Logo" class="logo-image"> <!-- Replace with your logo path -->
+                  SMARTbUDGET
+              </div>
+              <ul class="nav-links">
+                  <li><a href="home.html">Home</a></li>
+                  <li><a href="incomeexpense.html">IncomeExpense</a></li>
+                  <li><a href="budgeting.html">Budgeting</a></li>
+                  
+                  <li><a href="Re.html">Reports</a></li>
+                  <li><a href="Dashboard.html">Dashboard</a></li>
+                  <li><a href="settings.html">Settings</a></li>
+              </ul>
+          </nav>
+      </header>
+
+      <header>
+          <div class="header-section">
+              <h2>Annual Budget Summary is now easier than ever</h2>
+              <p>An annual budget summary is now available to help you stay on top of your financial goals.</p>
+          </div>
+      </header>
+
+
+      <section id="budget-form">
+          <form id="budgetEntryForm">
+            <label for="entryType">Type:</label>
+            <select id="entryType" required>
+              <option value="">Select</option>
+              <option value="income">Income</option>
+              <option value="expenses">Expenses</option>
+              <option value="savings">Savings</option>
+              <option value="goals">Goals</option>
+            </select>
+      
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" placeholder="Enter amount" required>
+      
+            <label for="month">Month:</label>
+            <select id="month" required>
+              <option value="">Select Month</option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+      
+            <button type="submit">Add Entry</button>
+          </form>
+      </section>
+
+    
+
+      <!-- Button for displaying summary -->
+      <button id="summaryButton">Show Annual Budget Summary</button>
+      
+      <!-- Overlay for displaying summary -->
+      <div id="summaryOverlay" class="overlay">
+          <div class="overlay-content vintage-overlay">
+
+            <h2>Annual Budget Summary</h2>
+            <!-- Search Functionality -->
+            <input type="text" id="searchInput" placeholder="Search entries...">
+            <section id="filters">
+              <label for="typeFilter">Filter by Type:</label>
+              <select id="typeFilter">
+                <option value="">All Types</option>
+                <option value="income">Income</option>
+                <option value="expenses">Expenses</option>
+                <option value="savings">Savings</option>
+                <option value="goals">Goals</option>
+              </select>
+        
+              <label for="monthFilter">Filter by Month:</label>
+              <select id="monthFilter">
+                <option value="">All Months</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+              </select>
+            </section>
+            <div id="summaryContent"></div>
+            <!-- Filter Section -->
+              
+           
+            <button class="close-btn" id="closeOverlayBtn">Close</button>
+            
+            
+
+            <!-- Export CSV Button -->
+            <button id="exportCSVButton">Export CSV</button>
+          </div>
+      </div>
+      
+      <script src="./js/darkmode.js"></script>
+    <script src="../js/budgets.js"></script>
+  </body>
+  </html>

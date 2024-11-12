@@ -1,0 +1,51 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SMARTbUDGET - Reports</title>
+        <link rel="icon" type="image/x-icon" href="../images/logo.png">
+        <link rel="stylesheet" href="../css/re.css">
+        <link rel="stylesheet" href="./css/global.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+    <body>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="Logo" class="logo-image"> <!-- Replace with your logo path -->
+                    SMARTbUDGET
+                </div>
+                <ul class="nav-links">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="incomeexpense.html">IncomeExpense</a></li>
+                    <li><a href="budgeting.html">Budgeting</a></li>
+                    <li><a href="Re.html">Reports</a></li>
+                    <li><a href="Dashboard.html">Dashboard</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <header class="header-section">
+            <h2>Financial Reports</h2>
+            <p>Analyze your income and expenses over time.</p>
+        </header>
+
+        <!-- Charts Section -->
+        <section>
+            <h3>Income vs Expense</h3>
+            <canvas id="incomeExpenseChart" width="400" height="200"></canvas>
+        </section>
+        
+        <section>
+            <h3>Category Breakdown</h3>
+            <canvas id="categoryChart" width="400" height="200"></canvas>
+        </section>
+        <section id="warningSection" class="warning-section" style="display: none;">
+            <p class="warning-text">Warning: Expenses exceed income!</p>
+        </section>
+        <script src="../js/re.js"></script>
+        <script src="./js/darkmode.js"></script>
+    </body>
+    </html>

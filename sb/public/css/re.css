@@ -1,0 +1,174 @@
+/* General Layout */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    width: 96.3vw; /* Full viewport width for full-screen navbar */
+    max-width: 100%; /* Ensure it doesn’t exceed viewport on larger screens */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+/* Styling for the logo image */
+.logo-image {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #ff6b6b;
+}
+
+/* Responsive navbar for mobile screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 15px 0;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+    }
+}
+
+/* Header Section Styling */
+.header-section {
+    text-align: center;
+    padding: 1.5rem 0;
+    background-color: #0066cc;
+    color: #fff;
+    width: 100%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-section h2 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.header-section p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+/* Section Styling */
+section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: 1.5rem;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+section:hover {
+    transform: scale(1.02);
+}
+
+section h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* Dark Mode: Header Section */
+body.dark-mode .header-section {
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2); /* Lighter shadow for dark mode */
+}
+
+/* Dark Mode: Section */
+body.dark-mode section {
+    background: #1e1e1e; /* Dark background for sections */
+    color: #fff; /* White text for readability */
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.1); /* Lighter shadow */
+    padding: 2rem;
+    margin: 1.5rem;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+
+body.dark-mode section h3 {
+color: whitesmoke;}
+/* Canvas Styling */
+canvas {
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    section {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .header-section h2 {
+        font-size: 1.75rem;
+    }
+
+    .header-section p {
+        font-size: 0.875rem;
+    }
+
+    section h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Colors for Charts */
+.chartjs-render-monitor {
+    background-color: #fff;
+    border-radius: 6px;
+}

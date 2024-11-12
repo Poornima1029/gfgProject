@@ -1,0 +1,34 @@
+/* Default styles for light mode */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+}
+
+.navbar {
+    background-color: #414ce7;
+    color: #333;
+}
+
+.nav-links a {
+    color: #333;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #333;
+    color: #ffffff;
+}
+
+body.dark-mode .navbar {
+    background-color: black;
+}
+
+body.dark-mode .nav-links a {
+    color: #ff6b6b;
+}
+
+
+body.dark-mode .nav-links a:hover {
+    color: #ee0e0e;
+}

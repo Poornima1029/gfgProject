@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    color: #333;
+}
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+/* Styling for the logo image */
+.logo-image {
+    height: 40px; /* Adjust size as needed */
+    width: 40px;
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #ff6b6b;
+}
+
+/* Responsive navbar for mobile screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+    }
+}
+
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 40vh;
+    background: url('../images/bg.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+}
+
+/* Transparent overlay for the hero section */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    z-index: 1;
+}
+
+/* Text box styling */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    background: rgba(197, 87, 87, 0.1); /* Slightly transparent background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+}
+
+/* About, Features, and Get Started Sections (no change) */
+.about, .get-started {
+    display: flex;
+    align-items: center;
+    padding: 40px 10%;
+    gap: 30px;
+}
+
+.about .text, .get-started .text {
+    flex: 1;
+}
+
+.about .image, .get-started .image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.about img, .get-started img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
+
+body.dark-mode .about:hover{
+    background-color: #5f5b5b;
+}
+
+.features {
+    padding: 40px 10%;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+
+body.dark-mode .features {
+    background-color: #222; /* Even darker background for dark mode */
+}
+
+body.dark-mode .features:hover{
+    background-color: #5f5b5b;
+}
+
+.features h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-cards .card {
+    flex: 1;
+    max-width: 200px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+body.dark-mode .feature-cards .card {
+    background-color: #555; /* Slightly lighter background for dark mode */
+    border: 1px solid #666; /* Lighter border in dark mode */
+    color: #fff; /* White text for card content */
+}
+
+.feature-cards img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.feature-cards p {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.get-started {
+    background-color: white;
+    color: #fff;
+}
+
+.get-started .text {
+    color: black;
+}
+
+body.dark-mode .get-started .text {
+    color: #fff;
+}
+
+body.dark-mode .get-started {
+    background-color: #444; /* Slightly lighter dark background for button */
+    color: #fff;
+}
+
+
+body.dark-mode .get-started:hover {
+    background-color: #777; /* Darker hover effect for dark mode */
+}
+
+@media (max-width: 768px) {
+    .about, .get-started {
+        flex-direction: column;
+    }
+
+    .feature-cards {
+        flex-direction: column;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    
+}
+
+.get-started .text button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.get-started .text button:hover {
+    background-color: #ff3b3b;
+}
+
+.get-started .text button:active {
+    background-color: #e63939;
+}
+
+
+body.dark-mode .get-started .text button {
+    background-color: #c1b19d; /* Lighter accent color in dark mode */
+}
+
+body.dark-mode .get-started .text button:hover {
+    background-color: #ff8c00; /* Hover effect for dark mode */
+}
+@media (max-width: 768px) {
+    .get-started .text button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+}

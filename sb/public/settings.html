@@ -1,0 +1,95 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SMARTbUDGET - Settings</title>
+        <link rel="icon" type="image/x-icon" href="../images/logo.png">
+        <link rel="stylesheet" href="./css/settings.css">
+        <link rel="stylesheet" href="./css/global.css">
+    </head>
+    <body>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="Logo" class="logo-image">
+                    SMARTbUDGET
+                </div>
+                <ul class="nav-links">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="incomeexpense.html">Income & Expense</a></li>
+                    <li><a href="budgeting.html">Budgeting</a></li>
+                    <li><a href="Re.html">Reports</a></li>
+                    <li><a href="Dashboard.html">Dashboard</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mini Navbar -->
+            <nav class="mini-navbar">
+                <ul>
+                    <li>
+                        <button id="customizeProfileBtn" class="mini-nav-btn">
+                            <span class="icon">🛠️</span> Customize Profile
+                        </button>
+                    </li>
+                   
+                    <li>
+                        <label for="darkModeToggle" class="dark-mode-label">
+                            <span class="icon">🌙</span> Toggle Mode    
+                        </label>
+                        <input type="checkbox" id="darkModeToggle" class="dark-mode-checkbox" style="display: none;">
+                        
+                    </li>
+                    <li>
+                    <!-- Logout Button -->
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+                    </li>
+                
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <div class="profile-container">
+              
+         
+                
+              <!-- Username Placeholder -->
+            <div id="username-placeholder"></div>
+        
+            <div id="customizeProfileForm" class="profile-form-container" style="display: none;">
+                <button id="closeProfileFormBtn" class="close-button">✖</button>
+                <form id="profileForm">
+                    <label for="profileImg">Profile Image:</label>
+                    <input type="file" id="profileImg" accept="image/*" class="profile-img-input"><br><br>
+                    
+                    <label for="bio">Bio:</label><br>
+                    <textarea id="bio" rows="4" cols="50" placeholder="Enter your bio..."></textarea><br><br>
+                    
+                    <label for="profession">Profession:</label>
+                    <input type="text" id="profession" placeholder="Enter your profession"><br><br>
+                    
+                    <button type="button" id="saveProfileBtn">Save Profile</button>
+                </form>
+            </div>
+         
+          
+        
+            
+              
+            </div>
+            <div id="customConfirmModal" class="modal">
+                <div class="modal-content">
+                    <p style="color: black;">Are you sure you want to logout?</p>
+                    <button id="confirmLogoutBtn">Yes</button>
+                    <button id="cancelLogoutBtn">No</button>
+                </div>
+            </div>
+        </main>
+        
+        <script src="./js/darkmode.js"></script>
+        <script src="./js/settings.js"></script>
+    </body>
+    </html>

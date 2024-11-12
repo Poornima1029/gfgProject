@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBudget Dashboard</title>
+    <link rel="stylesheet" href="../css/Dashboard.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Logo" class="logo-image"> <!-- Replace with your logo path -->
+                SMARTbUDGET
+            </div>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="incomeexpense.html">IncomeExpense</a></li>
+                <li><a href="budgeting.html">Budgeting</a></li>
+                <li><a href="Re.html">Reports</a></li>
+                <li><a href="Dashboard.html">Dashboard</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="summary-cards">
+            <div class="card" id="incomeCard">
+                <h2>Total Income</h2>
+                <p id="totalIncome">$0.00</p>
+            </div>
+            <div class="card" id="expenseCard">
+                <h2>Total Expenses</h2>
+                <p id="totalExpense">$0.00</p>
+            </div>
+            <div class="card" id="remainingCard">
+                <h2>Remaining Budget</h2>
+                <p id="remainingBudget">$0.00</p>
+            </div>
+            <div class="card" id="budgetGoalCard">
+                <h2>Budget Goal</h2>
+                <p id="budgetGoal">$1000.00</p> <!-- Change based on user input -->
+            </div>
+        </section>
+
+        <!-- Bar Chart Section -->
+        <section id="bar-chart">
+            <h2>Budget Breakdown</h2>
+            <canvas id="budgetBarChart" width="400" height="200"></canvas>
+        </section>
+        
+
+        
+    </main>
+    <script src="./js/darkmode.js"></script>
+    <script src="../js/dashboard.js"></script> <!-- Custom JS for the dashboard -->
+</body>
+</html>
